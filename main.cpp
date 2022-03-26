@@ -9,7 +9,7 @@ int main(){
 	
 	menu:
 	TampilanAwal();
-	printf("\t\t\t\t\t\t\t Pilih (angka) :   ");
+	printf("\tPilih (angka) :   ");
 	scanf("%d",&PilihMenu);
 	system("cls");
 	
@@ -18,23 +18,22 @@ int main(){
 		system("cls");
 		goto menu;
 	}
-	else if (PilihMenu == 2){
-		Read();
-		system("cls");
-		goto menu;
-	}
-	else if (PilihMenu == 3) {
+//	else if (PilihMenu == 2){
+//		Read();
+//		system("cls");
+//		goto menu;
+//	}
+	else if (PilihMenu == 2) {
 		Edit();
 		system("cls");
 		goto menu;
 	} 
-	else if (PilihMenu == 4){
+	else if (PilihMenu == 3){
 		Delete();
 		system("cls");
 		goto menu;
-	}else if (PilihMenu == 5) {
+	}else if (PilihMenu == 4) {
 		exit(1);
 	}
-	else exit (0);
 }
 
