@@ -1,39 +1,37 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "header.h"
+#include "menu.h"
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
-int main(){
-	int PilihMenu;
+int main() {
+	char choice;
 	
-	menu:
-	TampilanAwal();
-	printf("\tPilih (angka) :   ");
-	scanf("%d",&PilihMenu);
-	system("cls");
+	while (true) {
+		printMenu();
+		printf("\t?> Pilih menu: ");
+		choice = getche();
+		
+		switch (choice) {
+			case '1':
+				createFile();
+				break;
+			case '2':
+				openFile();
+				break;
+			case '3':
+				deleteFile();
+				break;
+			case '4':
+				renameFile();
+				break;
+			case '5':
+				aboutProgram();
+				break;
+			case '6':
+				printf("\n");
+				exit(1);
+				break;
+			default:
+				printf("\t!> Tidak ada di pilihan.\n");
+		}	
+	}
 	
-	if (PilihMenu == 1){
-		Create();
-		system("cls");
-		goto menu;
-	}
-//	else if (PilihMenu == 2){
-//		Read();
-//		system("cls");
-//		goto menu;
-//	}
-	else if (PilihMenu == 2) {
-		Edit();
-		system("cls");
-		goto menu;
-	} 
-	else if (PilihMenu == 3){
-		Delete();
-		system("cls");
-		goto menu;
-	}else if (PilihMenu == 4) {
-		exit(1);
-	}
+	return 0;
 }
-
