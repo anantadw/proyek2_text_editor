@@ -9,31 +9,40 @@ int main(){
 	
 	menu:
 	TampilanAwal();
-	printf(" Pilih (angka) :   ");
+	printf("\tPilih (angka) :   ");
 	scanf("%d",&PilihMenu);
-	system("cls");
 	
 	if (PilihMenu == 1){
+		system("cls");
 		Create();
 		system("cls");
 		goto menu;
 	}
-	else if (PilihMenu == 2){
-		Read();
+//	else if (PilihMenu == 2){
+//		Read();
+//		system("cls");
+//		goto menu;
+//	}
+	else if (PilihMenu == 2) {
 		system("cls");
-		goto menu;
-	}
-	else if (PilihMenu == 3) {
 		Edit();
 		system("cls");
 		goto menu;
 	} 
-	else if (PilihMenu == 4){
+	else if (PilihMenu == 3){
+		system("cls");
 		Delete();
 		system("cls");
 		goto menu;
-	}else if (PilihMenu == 5) {
-		exit(1);
+	}else if (PilihMenu == 4) {
+		CopyFile();
+		system("cls");
+		goto menu;
+	}else if (PilihMenu == 5){
+		RenameFile();
+		system("cls");
+		goto menu;
+	}else {
+		exit (0);
 	}
-	else exit (0);
 }

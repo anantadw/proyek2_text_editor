@@ -1,26 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#include <conio.h>
 #include "header.h"
 
-void TampilanAwal(){
+#define MAX_COLUMN 8
+#define MAX_ROW 3
+
+void TampilanAwal() {
 	printf("||=======================================================================||\n");	
 	printf("||                              TEKS EDITOR                              ||\n");
 	printf("||                                 MENU                                  ||\n");
 	printf("||=======================================================================||\n");
 	printf("|| 1. Create File                                                        ||\n");
-	printf("|| 2. Read File                                                          ||\n");
-	printf("|| 3. Edit File                                                          ||\n");
-	printf("|| 4. Delete File                                                        ||\n");       
-	printf("|| 5. Exit Program                                                       ||\n");
-	printf("||=======================================================================||\n");
-	printf("                       © Copyright ● Restful JSon                          \n\n");
-	
+//	printf("|| 2. Read File                                                          ||\n");
+	printf("|| 2. Open File                                                          ||\n");
+	printf("|| 3. Delete File                                                        ||\n");    
+	printf("|| 4. Copy File                                                          ||\n");          
+	printf("|| 5. Rename File                                                        ||\n"); 
+	printf("|| 6. Exit Program                                                       ||\n");
+	printf("||=======================================================================||\n\n");	
 }
 
-void Create(){
-  	printf("\n");
-	printf("||||\n");	
+void Create() {
+    FILE *fp;   /* file pointer*/
+    char fName[35];
+    int c;
+ 
+	printf("||=======================================================================||\n");	
 	printf("||                              TEKS EDITOR                              ||\n");
 	printf("||                                 CREATE                                ||\n");
 	printf("||=======================================================================||\n");
@@ -28,37 +34,37 @@ void Create(){
     scanf("%s",fName);
  
     /*creating (open) a file, in “w”: write mode*/    
-	printf("\n\t\t\t\t\t\tEnter the text and press Ctrl+S to save.\n");
+	printf("\nType the text and press Ctrl+S to save.\n");
 	fp = fopen(fName, "w");
-	while(1){
-		in=getch();
-	if(in==19){
-		goto end;
-	}
-	if(in==13){
-		in='\n';
-		printf("\n");
-		fputc(in,fp);
-	}
-	else{
-		printf("%c",in);
-		fputc(in,fp);
-	}
-	}
-	end: 
+//	while(1){
+//		in=getch();
+//		if(in==19){
+//			goto end;
+//		}
+//		if(in==13){
+//			in='\n';
+//			printf("\n\t");
+//			fputc(in,fp);
+//		}
+//		else{
+//			printf("%c",in);
+//			fputc(in,fp);
+//		}
+//	}
+	ReadInput(fp);
+	
 	fclose(fp);
-	getch();
-	return 0;
-	printf ("Press any key to continue. . .");
 }
 
 void Read(){
-	printf("\n\n\n");
+	FILE *fp;
+	char in, fName[35], pilih;
+	
 	printf("||=======================================================================||\n");	
 	printf("||                              TEKS EDITOR                              ||\n");
-	printf("\t\t\t\t\t\t||                                  READ                                 ||\n");
-	printf("\t\t\t\t\t\t||=======================================================================||\n");
-	printf("\t\t\t\t\t\t  Enter File Name	: ");
+	printf("||                                  READ                                 ||\n");
+	printf("||=======================================================================||\n");
+	printf("  Enter File Name	: ");
 	scanf("%s", fName);
 	fp = fopen(fName, "r");
 	
@@ -77,12 +83,11 @@ void Read(){
 }
 
 void Edit(){
-	printf("\n\n\n");
-	printf("\t\t\t\t\t\t||=======================================================================||\n");	
-	printf("\t\t\t\t\t\t||                              TEKS EDITOR                              ||\n");
-	printf("\t\t\t\t\t\t||                                  EDIT                                 ||\n");
-	printf("\t\t\t\t\t\t||=======================================================================||\n");
-	printf("\t\t\t\t\t\t  Enter File Name	: ");
+	printf("||=======================================================================||\n");	
+	printf("||                              TEKS EDITOR                              ||\n");
+	printf("||                                  EDIT                                 ||\n");
+	printf("||=======================================================================||\n");
+	printf("  Enter File Name	: ");
 	scanf("%s", fName);
 	
 	fp = fopen(fName, "r");
@@ -97,83 +102,107 @@ void Edit(){
 	}
 	fclose(fp);
 	
-	printf("\n\t\t\t\t\t\t\t\t\tType the text and press Ctrl+S to append.\n");
+	printf("\n\t\tType the text and press Ctrl+S to append.\n");
 	fp=fopen(fName,"a");
-	while(1){
-		in=getch();
-	if(in==19){
-		goto end2;
-	}
-	if(in==13){
-		in='\n';
-		printf("\n\t");
-		fputc(in,fp);
-	}
-	else{
-		printf("%c",in);
-		fputc(in,fp);
-	}
-	}
+	ReadInput(fp);
+	
 	end2: 
 	fclose(fp);
-	getch();
 }
 	
 void Delete() {
+	char fName[35];
 	int status;
 	
-	printf("\n\n\n");
-	printf("\t\t\t\t\t\t||=======================================================================||\n");	
-	printf("\t\t\t\t\t\t||                              TEKS EDITOR                              ||\n");
-	printf("\t\t\t\t\t\t||                                DELETE                                 ||\n");
-	printf("\t\t\t\t\t\t||=======================================================================||\n");
-	printf("\t\t\t\t\t\t  Enter File Name	: ");
+	printf("||=======================================================================||\n");	
+	printf("||                              TEKS EDITOR                              ||\n");
+	printf("||                                DELETE                                 ||\n");
+	printf("||=======================================================================||\n");
+	printf("  Enter File Name	: ");
 	scanf("%s", fName);
 	
 	status = remove(fName);
     if(status==0){
-        printf("\n\t\t\t\t\t\tFile Deleted Successfully!!!");
-        printf("\n\n\t\t\t\t\t\tPress any key to continue. . .");
-        getch();
+        printf("\n\tFile Deleted Successfully!!!");
 	}
     else{
-        printf("\n\t\t\t\t\t\tError Occurred!!!");
+        printf("\n\tError Occurred!!!");
 	}
+	
+	system("pause");
 }
 
-void Backspace(){
-	char fName[35], ch;
-    int i = 0;
-	while(ch != '\n')    // terminates if user hit enter
+void CopyFile(){
+	printf("\n  Enter File Name : ");
+	scanf("%s", fName);
+	printf("  Enter the new file name to copy : ");
+	scanf("%s",fNew);
+	fp = fopen(fName,"r");
+	fp1 = fopen(fNew,"w");
+	while(!feof(fp))
 	{
-    ch = getchar();
-    // if this is a backspace character, 
-    // lower the index and delete the last char
-    if(ch == 0x08){
-       fName[--i] = 0x00;
-    }else{
-       // other chars will increment the index and fill the current char buffer
-       fName[i++] = ch;
-    }
+		in=getc(fp);
+		putc(in,fp1);
 	}
+	fclose(fp1);
 }
 
-void Copy(){
-	bool isCtrl;
-	int in;
+void RenameFile(){
+	int status;
 	
-	while(1){
-		if (in == 19){
-			isCtrl = true;
-		}
-		if ((in == 67) && (isCtrl = true)){
-			printf("Ctrl + C");
-			fputc(in, fp);
-		}
-	}
+	printf("\n  Enter File Name : ");
+	scanf("%s", fName);
+	printf("  Enter the new file name to rename : ");
+	scanf("%s",fNew);
 	
+	status = rename(fName, fNew);
 }
 
-
-
-
+void ReadInput(FILE *fp) {
+	char c, teks[MAX_ROW][MAX_COLUMN + 2] = {};
+	int row = 0, column = 0, i;
+	
+	while (1) {
+		if (column == MAX_COLUMN) {
+			printf("\n");
+			teks[row++][column] = '\n';
+			column = 0;
+		}
+		
+		if (row == MAX_ROW) {
+			break;
+		}
+		
+		c = getch();
+		
+		if (c == 0x08) {
+			if (column < 0) {
+				column = 0;
+			}
+	    	teks[row][column] = 0x00;
+	    	column -= 1;
+	    	printf("\b");
+	    } else if (c == 72) {
+	    	printf("\x1b[A");
+		} else if (c == 80) {
+			printf("\x1b[B");
+		} else if (c == 13) {
+	    	printf("\n");
+	    	teks[row][column++] = '\n';
+	    	row += 1;
+	    	column = 0;
+	    } else if (c == 19) {
+	    	printf("\nFile saved.\n");
+	    	break;
+		} else {
+	    	teks[row][column++] = c;
+	    	printf("%c", c);
+		}
+	};
+	
+	for (i = 0; i < MAX_ROW; i++) {
+		fputs(teks[i], fp);
+	}
+	
+	system("pause");
+}
