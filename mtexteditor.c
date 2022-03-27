@@ -9,7 +9,7 @@ int main(){
 	
 	menu:
 	TampilanAwal();
-	printf("\t\t\t\t Pilih (angka) :   ");
+	printf(" Pilih (angka) :   ");
 	scanf("%d",&PilihMenu);
 	system("cls");
 	
@@ -24,10 +24,14 @@ int main(){
 		goto menu;
 	}
 	else if (PilihMenu == 3) {
-//		Edit();
+		Edit();
+		system("cls");
+		goto menu;
 	} 
 	else if (PilihMenu == 4){
 		Delete();
+		system("cls");
+		goto menu;
 	}else if (PilihMenu == 5) {
 		exit(1);
 	}

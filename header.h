@@ -6,10 +6,9 @@ char in, fName[35], pilih;
 
 void TampilanAwal();
 void Create();
-void Open();
+void Read();
+void Edit();
 void Delete();
-void ReadFile();
-void WriteFile();
-void AddFile();
+void Backspace();
 
 #endif
