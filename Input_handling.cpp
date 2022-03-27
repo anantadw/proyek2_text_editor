@@ -64,4 +64,14 @@ gotoxy(col,row);
 ch=' ';
 break;
 
+// deleted
+
+if(row==0 || col==0);
+	else
+	{
+	printf("\b");
+	}
+	continue;
+
+
 
