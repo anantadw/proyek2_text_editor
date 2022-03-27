@@ -41,3 +41,27 @@ int main()
 	return 0;
 }
 
+// backspace Keyboard
+
+if(col!=2)
+{	 // col=col-2;
+	printf("\b");
+	  col--;
+}
+else if(col==2 && row!=2)
+{		  printf("\b");
+	col=76;
+	row--;
+}
+else if(col==2 && row==2)
+{
+		printf("\b");
+	col=2;
+	row=2;
+
+}
+gotoxy(col,row);
+ch=' ';
+break;
+
+
