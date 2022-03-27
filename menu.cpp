@@ -1,0 +1,186 @@
+#include "menu.h"
+
+/* menampilkan pilihan menu */
+void printMenu() {
+	system("cls");
+	printf("||=======================================================================||\n");
+	printf("||                              TEKS EDITOR                              ||\n");
+	printf("||                                 MENU                                  ||\n");
+	printf("||=======================================================================||\n");
+	printf("|| 1. Buat file                                                          ||\n");
+	printf("|| 2. Buka file                                                          ||\n");
+	printf("|| 3. Hapus file                                                         ||\n");
+	printf("|| 4. Ubah nama file                                                     ||\n");
+	printf("|| 5. Tentang program                                                    ||\n");
+	printf("|| 6. Keluar program                                                     ||\n");
+	printf("||=======================================================================||\n\n");
+}
+
+/* membuat file baru */
+void createFile() {
+    FILE *fp;
+    char file_name[30];
+    bool exist = false;
+ 
+	system("cls");
+	printf("||=======================================================================||\n");	
+	printf("||                              TEKS EDITOR                              ||\n");
+	printf("||                               BUAT FILE                               ||\n");
+	printf("||=======================================================================||\n");
+	printf("\n\t?> Nama file (dengan ekstensi)\n");
+	printf("\t   Masukkan '0' untuk kembali : ");
+    scanf("%s", file_name);
+    
+    
+	if (strcmp(file_name, "0") == 0) {
+    	return;
+	} else {
+		exist = checkFileExists(file_name);
+	    if (exist) {
+	    	printf("\t!> File sudah ada.\n");
+		} else {
+			if ((fp = fopen(file_name, "w")) != NULL) {
+				printf("\t!> File berhasil dibuat.\n\n");
+				system("pause");
+				inputFile(fp);
+			} else {
+				printf("\t!> File gagal dibuat.\n");
+			}
+			
+			fclose(fp);
+		}
+		
+	}
+    
+	printf("\n");
+	system("pause");
+}
+
+/* membuka file yang dipilih */
+void openFile() {
+	FILE *fp;
+	char file_name[30], c;
+	bool exist;
+	
+	system("cls");
+	printf("||=======================================================================||\n");	
+	printf("||                              TEKS EDITOR                              ||\n");
+	printf("||                               BUKA FILE                               ||\n");
+	printf("||=======================================================================||\n");
+	printf("\n\t?> Nama file (dengan ekstensi)\n");
+	printf("\t   Masukkan '0' untuk kembali : ");
+	scanf("%s", file_name);
+	
+	if (strcmp(file_name, "0") == 0) {
+    	return;
+	} else {
+		exist = checkFileExists(file_name);
+	    if (exist) {
+	    	if ((fp = fopen(file_name, "r")) != NULL) {
+				while (!feof(fp)) {
+					c = getc(fp);
+					printf("%c", c);
+				}
+				readInput(fp);
+			} else {
+				printf("\t!> File gagal dibuka.\n");
+			}
+		} else {
+			printf("\t!> File tidak ditemukan.\n");
+		}
+	}
+	
+	system("pause");
+}
+
+/* menghapus file yang dipilih */
+void deleteFile() {
+	char file_name[30], confirm;
+	int status;
+	bool exist;
+	
+	system("cls");
+	printf("||=======================================================================||\n");	
+	printf("||                              TEKS EDITOR                              ||\n");
+	printf("||                               HAPUS FILE                              ||\n");
+	printf("||=======================================================================||\n");
+	printf("\n\t?> Nama file (dengan ekstensi)\n");
+	printf("\t   Masukkan '0' untuk kembali : ");
+    scanf("%s", file_name);
+    
+    if (strcmp(file_name, "0") == 0) {
+    	return;
+	} else {
+		exist = checkFileExists(file_name);
+	    if (exist) {
+	    	printf("\t!> File ditemukan.\n");
+	    	printf("\t?> Yakin ingin menghapus? <Y/T> : ");
+	    	confirm = getche();
+	    	if (toupper(confirm) == 'Y') {
+				status = remove(file_name);
+			    if (status == 0) {
+			        printf("\n\t!> File berhasil dihapus.\n");
+				} else {
+			        printf("\n\t!> File gagal dihapus.\n");
+				}		
+			}
+		} else {
+			printf("\t!> File tidak ditemukan.\n");
+		}
+	}
+    
+	printf("\n");
+	system("pause");
+}
+
+/* mengubah nama file tertentu */
+void renameFile() {
+	char file_name_old[30], file_name_new[30];
+	int status;
+	bool exist;
+	
+	system("cls");
+	printf("||=======================================================================||\n");	
+	printf("||                              TEKS EDITOR                              ||\n");
+	printf("||                            UBAH NAMA FILE                             ||\n");
+	printf("||=======================================================================||\n");
+	printf("\n\t?> Nama file lama (dengan ekstensi)\n");
+	printf("\t   Masukkan '0' untuk kembali : ");
+    scanf("%s", file_name_old);
+    
+    if (strcmp(file_name_old, "0") == 0) {
+    	return;
+	} else {
+		exist = checkFileExists(file_name_old);
+	    if (exist) {
+	    	printf("\t!> File ditemukan.\n");
+	    	printf("\t?> Nama file baru (dengan ekstensi): ");
+	    	scanf("%s", file_name_new);
+	    	
+	    	if (rename(file_name_old, file_name_new) == 0) {
+	    		printf("\t!> Nama file berhasil diubah.\n");
+			} else {
+				printf("\t!> Nama file gagal diubah.\n");
+			}
+		} else {
+			printf("\t!> File tidak ditemukan\n");
+		}
+	}
+    
+	printf("\n");
+	system("pause");
+}
+
+/* menampilakn deskripsi program */
+void aboutProgram() {
+	system("cls");
+	printf("||=======================================================================||\n");	
+	printf("||                              TEKS EDITOR                              ||\n");
+	printf("||                            TENTANG PROGRAM                            ||\n");
+	printf("||=======================================================================||\n");
+	printf("|| Ini adalah teks editor blabla...                                      ||\n");
+	printf("||=======================================================================||\n");
+	printf("\n");
+	
+	system("pause");
+}
