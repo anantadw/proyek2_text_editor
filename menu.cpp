@@ -11,8 +11,9 @@ void printMenu() {
 	printf("|| 2. Buka file                                                          ||\n");
 	printf("|| 3. Hapus file                                                         ||\n");
 	printf("|| 4. Ubah nama file                                                     ||\n");
-	printf("|| 5. Tentang program                                                    ||\n");
-	printf("|| 6. Keluar program                                                     ||\n");
+	printf("|| 5. Duplikasi file                                                     ||\n");
+	printf("|| 6. Tentang program                                                    ||\n");
+	printf("|| 7. Keluar program                                                     ||\n");
 	printf("||=======================================================================||\n\n");
 }
 
@@ -30,8 +31,7 @@ void createFile() {
 	printf("\n\t?> Nama file (dengan ekstensi)\n");
 	printf("\t   Masukkan '0' untuk kembali : ");
     scanf("%s", file_name);
-    
-    
+       
 	if (strcmp(file_name, "0") == 0) {
     	return;
 	} else {
@@ -49,7 +49,6 @@ void createFile() {
 			
 			fclose(fp);
 		}
-		
 	}
     
 	printf("\n");
@@ -136,7 +135,6 @@ void deleteFile() {
 /* mengubah nama file tertentu */
 void renameFile() {
 	char file_name_old[30], file_name_new[30];
-	int status;
 	bool exist;
 	
 	system("cls");
@@ -171,16 +169,63 @@ void renameFile() {
 	system("pause");
 }
 
-/* menampilakn deskripsi program */
-void aboutProgram() {
+void copyFile(){
+	FILE *fp, *fp1;
+	char file_name_old[30], file_name_new[30];
+	char exist;
+	
 	system("cls");
 	printf("||=======================================================================||\n");	
 	printf("||                              TEKS EDITOR                              ||\n");
-	printf("||                            TENTANG PROGRAM                            ||\n");
+	printf("||                             DUPLIKASI FILE                            ||\n");
 	printf("||=======================================================================||\n");
-	printf("|| Ini adalah teks editor blabla...                                      ||\n");
-	printf("||=======================================================================||\n");
+	printf("\n\t?> Nama file lama (dengan ekstensi)\n");
+	printf("\t   Masukkan '0' untuk kembali : ");
+    scanf("%s", file_name_old);
+    
+    if (strcmp(file_name_old, "0") == 0) {
+    	return;
+	} else {
+		exist = checkFileExists(file_name_old);
+	    if (exist) {
+	    	printf("\t!> File ditemukan.\n");
+	    	printf("\t?> Nama file baru (dengan ekstensi): ");
+	    	scanf("%s", file_name_new);
+	    	
+	    	fp = fopen(file_name_old, "r");
+	    	fp1 = fopen(file_name_new, "w");
+	    	
+	    	while (!feof(fp)){
+	    		exist = getc(fp);
+				putc(exist, fp1);	
+			}
+			fclose(fp1);
+			printf("\t!> File berhasil diduplikasi.\n");
+			
+		} else {
+			printf("\t!> File tidak ditemukan\n");
+		}
+	}
+    
 	printf("\n");
+	system("pause");
+}
+
+/* menampilakn deskripsi program */
+void aboutProgram() {
+	char about[300];
+	FILE *fp;
 	
+	system("cls");
+	if ((fp = fopen("aboutProgram.txt","r")) == NULL) {
+		printf("\t!> File kosong.\n");
+	} else {
+		while(fgets(about, sizeof(about), fp)) {
+			printf("%s", about);
+		}
+	}
+	fclose(fp);
+	
+	printf("\n\n");
 	system("pause");
 }

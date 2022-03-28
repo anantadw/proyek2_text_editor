@@ -22,9 +22,12 @@ int main() {
 				renameFile();
 				break;
 			case '5':
+				copyFile();
+				break;
+			case '6' :
 				aboutProgram();
 				break;
-			case '6':
+			case '7':
 				printf("\n");
 				exit(1);
 				break;

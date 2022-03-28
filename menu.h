@@ -18,6 +18,9 @@ void deleteFile();
 /* mengubah nama file tertentu */
 void renameFile();
 
+/* menduplikasi file tertentu */
+void copyFile();
+
 /* menampilakn deskripsi program */
 void aboutProgram();
 
