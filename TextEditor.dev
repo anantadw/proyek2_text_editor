@@ -1,6 +1,6 @@
 [Project]
-FileName=TextEditor.dev
-Name=Project1
+FileName=Keyboard.dev
+Name=Keyboard
 Type=1
 Ver=2
 ObjFiles=
@@ -27,9 +27,9 @@ CommandLine=
 Folders=
 IncludeVersionInfo=0
 SupportXPThemes=0
-CompilerSet=0
-CompilerSettings=0000000000000000000000000
-UnitCount=1
+CompilerSet=3
+CompilerSettings=00000001c0000000000000000
+UnitCount=2
 
 [VersionInfo]
 Major=1
@@ -50,8 +50,18 @@ ProductVersion=
 AutoIncBuildNr=0
 SyncProduct=1
 
+[Unit2]
+FileName=input_handling.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
 [Unit1]
-FileName=main.cpp
+FileName=Keyboard.cpp
 CompileCpp=1
 Folder=
 Compile=1
