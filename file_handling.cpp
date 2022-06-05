@@ -28,8 +28,7 @@ void readInput(FILE *fp, List text[], address *pointer, int row, int column)
 	{
 		if (text[row].number_of_column == MAX_COLUMN)
 		{
-			newLine(&text[row], &row, &column, pointer, &text[row + 1]);
-			cursor_row = row;
+			newLine(text, &row, &cursor_row, &column, pointer);
 		}
 		
 		if (row == MAX_ROW)
@@ -47,22 +46,27 @@ void readInput(FILE *fp, List text[], address *pointer, int row, int column)
 			case KEY_UP:
 				if (cursor_row > 0)
 				{
-					moveUp(pointer, &cursor_row, &column, &text[row - 1]);
+					moveUp(pointer, &cursor_row, &column, &text[cursor_row - 1]);
+				}
+				break;
+			case KEY_DOWN:
+				if (cursor_row < row)
+				{
+					moveDown(pointer, &cursor_row, &column, &text[cursor_row + 1]);
 				}
 				break;
 			case KEY_LEFT:
-				moveLeft(pointer, &column, row);
+				moveLeft(pointer, &column, cursor_row);
 				break;
 			case KEY_RIGHT:
-				moveRight(pointer, &column, row, text[row]);
+				moveRight(pointer, &column, cursor_row, text[cursor_row]);
 				break;
 			case KEY_BACKSPACE:
-				deleteCharacter(&text[row], &column, pointer);
+				deleteCharacter(&text[cursor_row], &column, pointer);
 				printText(text, row, column, cursor_row);
 				break;
 			case KEY_ENTER:
-				newLine(&text[row], &row, &column, pointer, &text[row + 1]);
-				cursor_row = row;
+				newLine(text, &row, &cursor_row, &column, pointer);
 				printText(text, row, column, cursor_row);
 				break;
 			case KEY_SAVE:
@@ -70,15 +74,15 @@ void readInput(FILE *fp, List text[], address *pointer, int row, int column)
 				loop = false;
 				break;
 			case KEY_COPY:
-				clipboard = copy(text[row]);
+				clipboard = copy(text[cursor_row]);
 				break;
 			case KEY_PASTE:
-				paste(&text[row], clipboard, row, &column, pointer);
+				paste(&text[cursor_row], clipboard, &column, pointer);
 				clearClipboard(&clipboard);
 				printText(text, row, column, cursor_row);
 				break;
 			default:
-				inputCharacter(c, &text[row], &column, pointer);
+				inputCharacter(c, &text[cursor_row], &column, pointer);
 				printText(text, row, column, cursor_row);
 		}
 	};

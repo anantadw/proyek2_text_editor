@@ -7,7 +7,7 @@
 void inputCharacter(char, List *, int *, address *);
 
 /* membuat baris baru */
-void newLine(List *, int *, int *, address *, List *);
+void newLine(List [], int *, int *, int *, address *);
 
 /* menghapus 1 karakter terakhir dari list */
 void deleteCharacter(List *, int *, address *);
@@ -16,7 +16,7 @@ void deleteCharacter(List *, int *, address *);
 List copy(List);
 
 /* untuk menyimpan hasil salinan suatu baris */
-void paste(List *, List, int, int *, address *);
+void paste(List *, List, int *, address *);
 
 /* membersihkan data yang ada di clipboard */
 void clearClipboard(List *clipboard);
@@ -29,5 +29,8 @@ void moveRight(address *, int *, int, List);
 
 /* menggerakan cursor ke atas */
 void moveUp(address *, int *, int *, List *);
+
+/* menggerakan cursor ke bawah */
+void moveDown(address *, int *, int *, List *);
 
 #endif

@@ -3,11 +3,11 @@
 /* menginput karakter ke list */
 void inputCharacter(char c, List *text, int *column, address *pointer)
 {
-	address node;
+	address node, last;
 	
 	node = createNode(c);
 	if (node != NULL)
-	{
+	{	
 		// insert first - input di awal baris, baris sudah ada karakter
 		if ((*pointer) == NULL && (*text).first != NULL)
 		{
@@ -43,27 +43,46 @@ void inputCharacter(char c, List *text, int *column, address *pointer)
 }
 
 /* membuat baris baru */
-void newLine(List *text, int *row, int *column, address *pointer, List *text2)
+void newLine(List text[], int *row, int *cursor_row, int *column, address *pointer)
 {
-	address node, temp;
-	int count;
+	address node, temp, temp2;
+	int count,i ;
 	
 	node = createNode('\n');
-	// jika baris kosong (cursor di awal)
+	// jika cursor di awal
 	if ((*pointer) == NULL)
 	{
-		if ((*text).first != NULL)
+		// jika baris tidak kosong
+		if (text[*cursor_row].first != NULL)
 		{
-			(*text2).first = (*text).first;
+			text[*cursor_row + 1].first = text[*cursor_row].first;
 		}
-		(*text).first = node;
+		text[*cursor_row].first = node;
+		text[*cursor_row].number_of_column++;
+	}
+	// jika cursor di akhir baris tapi sudah ada new line
+	else if ((*pointer)->next != NULL && (*pointer)->next->character == '\n')
+	{
+		for (i = *row; i > 0; i--)
+		{
+			if (i == *cursor_row)
+			{
+				break;
+			}
+			temp2 = text[i].first;
+			text[i + 1].first = temp2;
+		}
+		temp2 = NULL;
+		text[*cursor_row + 1].first = node;
+		text[*cursor_row + 1].number_of_column = 1;
+		(*pointer) = NULL;
 	}
 	// jika cursor di akhir baris
 	else if ((*pointer)->next == NULL)
 	{
 		(*pointer)->next = node;
 		(*pointer) = NULL;
-		(*text).number_of_column++;
+		text[*cursor_row].number_of_column++;
 	} 
 	// jika cursor di tengah baris
 	else if ((*pointer)->next != NULL)
@@ -72,15 +91,38 @@ void newLine(List *text, int *row, int *column, address *pointer, List *text2)
 		temp->previous = NULL;
 		(*pointer)->next = node;
 		node->previous = (*pointer);
-		(*text2).first = temp;
-		count = countColumn(*text2);
-		(*text2).number_of_column = count;
+		
+		// jika baris selanjutnya kosong
+		if (text[*cursor_row + 1].first == NULL)
+		{
+			text[*cursor_row + 1].first = temp;
+			count = countColumn(text[*cursor_row + 1]);
+			text[*cursor_row + 1].number_of_column = count;
+		}
+		else
+		{
+			for (i = *row; i > 0; i--)
+			{
+				if (i == *cursor_row)
+				{
+					break;
+				}
+				temp2 = text[i].first;
+				text[i + 1].first = temp2;
+			}
+			temp2 = NULL;
+			text[*cursor_row + 1].first = temp;
+			count = countColumn(text[*cursor_row + 1]);
+			text[*cursor_row + 1].number_of_column = count;
+		}
+		
 		(*pointer) = NULL;
 	}
 	
 	(*column) = 0;
 	(*row)++;
-	gotoXY(*row, *column);
+	(*cursor_row)++;
+	gotoXY(*cursor_row, *column);
 }
 
 /* menghapus 1 karakter terakhir dari list */
@@ -180,7 +222,7 @@ List copy(List text)
 }
 
 /* untuk menyimpan hasil salinan suatu baris */
-void paste(List *text, List copy, int row, int *column, address *pointer)
+void paste(List *text, List copy, int *column, address *pointer)
 {
 	address node;
 	
@@ -217,12 +259,13 @@ void moveRight(address *pointer, int *column, int row, List text)
 	{
 		(*pointer) = text.first;
 	}
-	else if ((*pointer)->next != NULL && (*column) < text.number_of_column)
+	else if ((*pointer)->next != NULL && (*column) < text.number_of_column && (*pointer)->next->character != '\n')
 	{
 		(*pointer) = (*pointer)->next;
 	}
 	else
 	{
+//		printf("%d-%d", *column, text.number_of_column);
 		return;
 	}
 	
@@ -233,7 +276,7 @@ void moveRight(address *pointer, int *column, int row, List text)
 /* menggerakan cursor ke atas */
 void moveUp(address *pointer, int *cursor_row, int *column, List *text)
 {
-	int count = 0, i;
+	int count = 0, i, x;
 	address node;
 
 	if ((*pointer) != NULL && (*text).first != NULL)
@@ -246,23 +289,62 @@ void moveUp(address *pointer, int *cursor_row, int *column, List *text)
 			{
 				node = node->next;
 			}
+			x = *column;
 		}
-		else if ((*column) > count)
+		else if (*column >= count)
+		{
+			for (i = 1; i < count - 1; i++) {
+				node = node->next;
+			}
+			(*column) = count - 1;
+			x = count - 1;
+		}
+		(*pointer) = node;
+	}
+	else if ((*pointer) == NULL)
+	{
+		x = 0;
+	}
+	
+	(*cursor_row)--;
+	gotoXY(x, *cursor_row);
+}
+
+/* menggerakan cursor ke bawah */
+void moveDown(address *pointer, int *cursor_row, int *column, List *text)
+{
+	int count = 0, i, x;
+	address node;
+
+	if ((*pointer) != NULL && (*text).first != NULL)
+	{
+		count = countColumn(*text);
+		node = (*text).first;
+		if ((*column) < count)
+		{
+			for (i = 1; i < (*column); i++)
+			{
+				node = node->next;
+			}
+			x = *column;
+		}
+		else if (*column >= count)
 		{
 			for (i = 1; i < count; i++) {
 				node = node->next;
 			}
 			(*column) = count;
+			x = count;
 		}
 		(*pointer) = node;
-		(*cursor_row)--;
 	}
 	else if ((*pointer) == NULL)
 	{
-
+		x = 0;
 	}
-
-	gotoXY((*column), (*cursor_row));
+	
+	(*cursor_row)++;
+	gotoXY(x, *cursor_row);
 }
 
 void clearClipboard(List *clipboard)
