@@ -6,13 +6,8 @@
 /* mencek apakah file sudah ada */
 bool checkFileExists(char [30]);
 
-/* menginput ke file */
-void inputFile(FILE *);
-
 /* membaca inputan */
-void readInput(FILE *);
-
-void editFile(FILE *, List [], int, int, address *);
+void readInput(FILE *, List [], address *, int, int);
 
 /* menyimpan ke file */
 void saveFile(FILE *, List [], int);

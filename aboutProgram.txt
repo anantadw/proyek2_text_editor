@@ -1,19 +1,19 @@
-||=======================================================================||
-||                           TENTANG PROGRAM                             ||
-||=======================================================================||
-|| TnW Apps merupakan teks editor sederhana yang dibuat menggunakan      ||
-|| bahasa C. Teks editor ini memungkinkan pengguna untuk membuka, melihat||
-|| dan mengedit file plain text atau teks biasa.                         ||
-||=======================================================================||
 
-||=======================================================================||
-||                            SHORTCUT KEYS                              ||
-||-----------------------------------------------------------------------||
-|| 1. Menyimpan file             CTRL + S                                ||
-|| 2. Menyalin isi baris         CTRL + C                                ||
-|| 3. Menempel isi yang disalin  CTRL + V                                ||
-|| 4. Menggeser kursor ke atas   CTRL + I                                ||
-|| 4. Menggeser kursor ke kiri   CTRL + J                                ||
-|| 4. Menggeser kursor ke kanan  CTRL + L                                ||
-|| 4. Menggeser kursor ke bawah  CTRL + K                                ||
-||=======================================================================||
+
+ TypeApp merupakan aplikasi text editor sederhana berbasis console yang 
+ dibuat menggunakan bahasa C. Aplikasi ini mempunyai fitur-fitur 
+ sederhana untuk mengolah file text, seperti membuat, membuka dan 
+ mengedit isi file.
+
+________________________________________________________________________
+
+                                 SHORTCUT
+
+ 1. Menyimpan file             CTRL + S                                
+ 2. Menyalin isi baris         CTRL + C                                
+ 3. Menempel isi yang disalin  CTRL + V                                
+ 4. Menggeser kursor ke atas   CTRL + I                                
+ 5. Menggeser kursor ke kiri   CTRL + J                               
+ 6. Menggeser kursor ke kanan  CTRL + L                             
+ 7. Menggeser kursor ke bawah  CTRL + K      
+                       

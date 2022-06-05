@@ -27,11 +27,12 @@ void moveLeft(address *, int *, int);
 
 void moveRight(address *, int *, int, List);
 
-void printText(List [], int, int);
+void moveUp(address *, int *, int *, List *);
+
+void printText(List [], int, int, int);
 
 int countColumn(List);
 
 void clearClipboard(List *clipboard);
 
 #endif
-

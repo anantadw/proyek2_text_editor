@@ -48,13 +48,15 @@ void newLine(List *text, int *row, int *column, address *pointer, List *text2) {
 	int count;
 	
 	node = createNode('\n');
-	if ((*pointer)->next == NULL) {
-		if (node != NULL) {
-			(*pointer)->next = node;
-			(*pointer) = NULL;
+	if ((*pointer) == NULL) {
+		if ((*text).first != NULL) {
+			(*text2).first = (*text).first;
 		}
+		(*text).first = node;
+	} else if ((*pointer)->next == NULL) {
+		(*pointer)->next = node;
+		(*pointer) = NULL;
 		(*text).number_of_column++;
-		(*column) = 0;
 	} else if ((*pointer)->next != NULL) {
 		temp = (*pointer)->next;
 		temp->previous = NULL;
@@ -64,9 +66,9 @@ void newLine(List *text, int *row, int *column, address *pointer, List *text2) {
 		count = countColumn(*text2);
 		(*text2).number_of_column = count;
 		(*pointer) = NULL;
-		(*column) = 0;
 	}
 	
+	(*column) = 0;
 	(*row)++;
 	gotoXY(*row, *column);
 }
@@ -191,7 +193,37 @@ void moveRight(address *pointer, int *column, int row, List text) {
 	gotoXY((*column), row);
 }
 
-void printText(List text[], int row, int column) {
+void moveUp(address *pointer, int *cursor_row, int *column, List *text) {
+	int count = 0, i;
+	address node;
+
+	if ((*pointer) != NULL && (*text).first != NULL) {
+		count = countColumn(*text);
+		node = (*text).first;
+		if ((*column) < count)
+		{
+			for (i = 1; i < (*column); i++)
+			{
+				node = node->next;
+			}
+		}
+		else if ((*column) > count)
+		{
+			for (i = 1; i < count; i++) {
+				node = node->next;
+			}
+			(*column) = count;
+		}
+		(*pointer) = node;
+		(*cursor_row)--;
+	} else if ((*pointer) == NULL) {
+
+	}
+
+	gotoXY((*column), (*cursor_row));
+}
+
+void printText(List text[], int row, int column, int cursor_row) {
 	int i;
 	address node;
 	
@@ -206,7 +238,7 @@ void printText(List text[], int row, int column) {
 		}
 	}
 	
-	gotoXY(column, row);
+	gotoXY(column, cursor_row);
 }
 
 int countColumn(List text) {
@@ -226,4 +258,3 @@ void clearClipboard(List *clipboard) {
 	(*clipboard).number_of_column = 0;
 	(*clipboard).first = NULL;
 }
-
