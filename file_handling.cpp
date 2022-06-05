@@ -80,6 +80,59 @@ void readInput(FILE *fp) {
 	saveFile(fp, text, row);
 }
 
+void editFile(FILE *fp, List text[], int row, int column, address *pointer) {
+	char c;
+	bool loop = true;
+	List clipboard;
+	
+	while (loop) {
+		if (text[row].number_of_column == MAX_COLUMN) {
+			newLine(&text[row], &row, &column, pointer, &text[row + 1]);
+		}
+		
+		if (row == MAX_ROW) {
+			printf("\n");
+			printf("\t!> Batas maksimal baris tercapai.");
+			break;
+		}
+		
+		c = getch();
+		switch (c) {
+			case KEY_LEFT:
+				moveLeft(pointer, &column, row);
+				break;
+			case KEY_RIGHT:
+				moveRight(pointer, &column, row, text[row]);
+				break;
+			case KEY_BACKSPACE:
+				deleteCharacter(&text[row], &column, pointer);
+				printText(text, row, column);
+				break;
+			case KEY_ENTER:
+				newLine(text, &row, &column, pointer, &text[row + 1]);
+				printText(text, row, column);
+				break;
+			case KEY_SAVE:
+				row++;
+				loop = false;
+				break;
+			case KEY_COPY:
+				clipboard = copy(text[row]);
+				break;
+			case KEY_PASTE:
+				paste(&text[row], clipboard, row, &column, pointer);
+				clearClipboard(&clipboard);
+				printText(text, row, column);
+				break;
+			default:
+				inputCharacter(c, &text[row], &column, pointer);
+				printText(text, row, column);
+		}
+	};
+	
+	saveFile(fp, text, row);
+}
+
 /* menyimpan ke file */
 void saveFile(FILE *fp, List text[], int row) {
 	int i;

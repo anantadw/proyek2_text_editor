@@ -12,6 +12,8 @@ void inputFile(FILE *);
 /* membaca inputan */
 void readInput(FILE *);
 
+void editFile(FILE *, List [], int, int, address *);
+
 /* menyimpan ke file */
 void saveFile(FILE *, List [], int);
 

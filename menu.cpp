@@ -60,6 +60,9 @@ void openFile() {
 	FILE *fp;
 	char file_name[30], c;
 	bool exist;
+	List text[MAX_ROW];
+	address pointer = NULL;
+	int row = 0, column = 0;
 	
 	system("cls");
 	printf("||=======================================================================||\n");	
@@ -75,15 +78,22 @@ void openFile() {
 	} else {
 		exist = checkFileExists(file_name);
 	    if (exist) {
-	    	if ((fp = fopen(file_name, "r")) != NULL) {
-				while (!feof(fp)) {
-					c = getc(fp);
-					printf("%c", c);
+	    	if ((fp = fopen(file_name, "r+")) != NULL) {
+				while ((c = fgetc(fp)) != EOF) {
+					inputCharacter(c, &text[row], &column, &pointer);
+					if (c == '\n') {
+						row++;
+						column = 0;
+					}
 				}
-				readInput(fp);
+				rewind(fp);
+				system("cls");
+				editFile(fp, text, row, column, &pointer);
 			} else {
 				printf("\t!> File gagal dibuka.\n");
 			}
+			
+			fclose(fp);
 		} else {
 			printf("\t!> File tidak ditemukan.\n");
 		}
