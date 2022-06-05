@@ -9,7 +9,7 @@
 #include <cstring>
 #include <windows.h>
 
-#define MAX_COLUMN 20
+#define MAX_COLUMN 40
 #define MAX_ROW 10
 
 /* kode ascii untuk key spesial */
