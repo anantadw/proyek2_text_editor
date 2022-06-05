@@ -15,25 +15,25 @@ bool checkFileExists(char file_name[30]) {
 /* menginput ke file */
 void inputFile(FILE *fp) {
 	system("cls");
-	printf("||=======================================================================||\n");	
-	printf("||                              TEKS EDITOR                              ||\n");
-	printf("||                              INPUT FILE                               ||\n");
-	printf("||                      Tekan CTRL+S untuk menyimpan                     ||\n");
-	printf("||=======================================================================||\n");
+//	printf("||=======================================================================||\n");	
+//	printf("||                              TEKS EDITOR                              ||\n");
+//	printf("||                              INPUT FILE                               ||\n");
+//	printf("||                      Tekan CTRL+S untuk menyimpan                     ||\n");
+//	printf("||=======================================================================||\n");
 	
 	readInput(fp);
 }
 
 /* membaca inputan */
 void readInput(FILE *fp) {
-	char c, teks[MAX_ROW][MAX_COLUMN + 2] = {}, clipboard[MAX_COLUMN + 2] = {};
-	int row = 0, column = 0, i, cursor_x = 0, cursor_y = 6, last_column = 0;
+	char c;
+	int row = 0, column = 0;
 	bool loop = true;
+	List text[MAX_ROW];
 	
-	gotoXY(cursor_x, cursor_y);
 	while (loop) {
-		if (column == MAX_COLUMN) {
-			newLine(teks, row, column, cursor_x, cursor_y);
+		if (text[row].number_of_column == MAX_COLUMN) {
+			newLine(&text[row], &row, &column);
 		}
 		
 		if (row == MAX_ROW) {
@@ -44,64 +44,42 @@ void readInput(FILE *fp) {
 		
 		c = getch();
 		switch (c) {
-			case KEY_UP:
-				cursor_y--;
-				if (cursor_y < 6) {
-					cursor_y = 6;
-				}
-				row = cursor_y - 6;
-				break;
-			case KEY_DOWN:
-				cursor_y++;
-				if (cursor_y > row + 7) {
-					cursor_y = row + 7;
-				}
-				row = cursor_y - 6;
-				break;
-			case KEY_RIGHT:
-				cursor_x++;
-				column = cursor_x;
-				break;
-			case KEY_LEFT:
-				cursor_x--;
-				if (cursor_x < 0) {
-					cursor_x = 0;
-				}
-				column = cursor_x;
-				break;
 			case KEY_BACKSPACE:
-				deleteCharacter(teks, row, column, cursor_x);
+				deleteCharacter(&text[row], &column);
 				break;
 			case KEY_ENTER:
-				newLine(teks, row, column, cursor_x, cursor_y);
+				newLine(&text[row], &row, &column);
 				break;
 			case KEY_SAVE:
+				row++;
 				loop = false;
 				break;
-			case KEY_COPY:
-				copyLine(teks, row, clipboard);
-				break;
-			case KEY_PASTE:
-				paste(teks, row, column, clipboard, cursor_x, cursor_y);
-				break;
 			default:
-				cursor_x++;
-				inputCharacter(teks, row, column, c);
+				inputCharacter(c, &text[row], &column);
 		}
-		
-		gotoXY(cursor_x, cursor_y);
 	};
 	
-	saveFile(fp, teks);
+	saveFile(fp, text, row);
 }
 
 /* menyimpan ke file */
-void saveFile(FILE *fp, char teks[][MAX_COLUMN + 2]) {
+void saveFile(FILE *fp, List text[], int row) {
 	int i;
+	address node;
 	
-	for (i = 0; i < MAX_ROW; i++) {
-		fputs(teks[i], fp);
+	for (i = 0; i < row; i++) {
+		node = text[i].first;
+		while (node != NULL) {
+			fputc(node->character, fp);
+//			printf("%c", node->character);
+			node = node->next;
+		}
 	}
 	
-	printf("\n\t!> File disimpan.\n");
+	system("cls");
+	printf("\n");
+	printf("\t============================\n");
+	printf("\t|  File berhasil disimpan. |\n");
+	printf("\t============================\n");
 }
+

@@ -9,8 +9,8 @@
 #include <cstring>
 #include <windows.h>
 
-#define MAX_COLUMN 80
-#define MAX_ROW 40
+#define MAX_COLUMN 20
+#define MAX_ROW 10
 
 /* kode ascii untuk key spesial */
 #define KEY_COPY 3 /* ctrl + c */

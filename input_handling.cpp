@@ -1,69 +1,102 @@
 #include "input_handling.h"
 
-/* menginput karakter ke array */
-void inputCharacter(char teks[][MAX_COLUMN + 2], int &row, int &column, char c) {
-	teks[row][column] = c;
+/* mengalokasikan node baru untuk list */
+address createNode(char c) {
+	address new_node;
+	
+	new_node = (address) malloc(sizeof(node));
+    if (new_node != NULL) {
+        new_node->character = c;
+        new_node->previous = NULL;
+        new_node->next = NULL;
+    }
+
+    return new_node;
+}
+
+/* menginput karakter ke list */
+void inputCharacter(char c, List *text, int *column) {
+	address node, last;
+	
+	node = createNode(c);
+	if (node != NULL) {
+		if ((*text).first == NULL) {
+            (*text).first = node;
+        } else {
+        	last = (*text).first;
+        	while (last->next != NULL) {
+        		last = last->next;
+			}
+			
+			node->next = last->next;
+			node->previous = last;
+			last->next = node;
+			last = node;
+		}
+	}
+	
+	(*text).number_of_column++;
+	(*column)++;
 	printf("%c", c);
-	column += 1;
 }
 
 /* membuat baris baru */
-void newLine(char teks[][MAX_COLUMN + 2], int &row, int &column, int &cursor_x, int &cursor_y) {
-	teks[row][column] = '\n';
-	row += 1;
-	column = 0;
+void newLine(List *text, int *row, int *column) {
+	address node, last;
 	
-	cursor_x = 0;
-	cursor_y += 1;
-	gotoXY(cursor_x, cursor_y);
-}
-
-/* menghapus 1 karakter terakhir dari array */
-void deleteCharacter(char teks[][MAX_COLUMN + 2], int &row, int &column, int &cursor_x) {
-	teks[row][column] = 0x00;
-	column -= 1;
-	printf("\b \b");
-	if (column < 0) {
-		column = 0;
+	node = createNode('\n');
+	if (node != NULL) {
+		if ((*text).first == NULL) {
+            (*text).first = node;
+        } else {
+        	last = (*text).first;
+        	while (last->next != NULL) {
+        		last = last->next;
+			}
+			
+			node->next = last->next;
+			node->previous = last;
+			last->next = node;
+			last = node;
+		}
 	}
-	cursor_x -= 1;
-	if (cursor_x < 0) {
-		cursor_x = 0;
-	}
+	
+	(*text).number_of_column++;
+	(*row)++;
+	(*column) = 0;
+	printf("\n");
 }
 
-/* menyalin isi baris pada posisi kursor */
-void copyLine(char teks[][MAX_COLUMN + 2], int row, char clipboard[MAX_COLUMN + 2]) {
-	strcpy(clipboard, teks[row]);
-}
-
-/* menempel isi yang disalin */
-void paste(char teks[][MAX_COLUMN + 2], int row, int &column, char clipboard[MAX_COLUMN + 2], int &cursor_x, int cursor_y) {
-	if (!clipboard[0] == '\0') {
-		strcpy(teks[row], "");
-		strcpy(teks[row], clipboard);
-		printf("%s", teks[row]);
-		strcpy(clipboard, "");
-		
-		column = getLastColumn(teks[row]);
-		cursor_x = column;
-		gotoXY(cursor_x, cursor_y);
-	} else {
+/* menghapus 1 karakter terakhir dari list */
+void deleteCharacter(List *text, int *column) {
+	address last, before_last;
+	
+	last = (*text).first;
+	if (last == NULL) {
 		return;
 	}
+	while (last->next != NULL) {
+		last = last->next;
+	}
+	
+	before_last = last->previous;
+	if (before_last != NULL) {
+		before_last->next = NULL;
+		last->previous = NULL;
+	} else {
+		(*text).first = NULL;
+	}
+	free(last);
+	
+	(*text).number_of_column--;
+	if ((*text).number_of_column < 0) {
+		(*text).number_of_column = 0;
+	}
+	
+	(*column)--;
+	if ((*column) < 0) {
+		(*column) = 0;
+	}
+	printf("\b \b");
 }
 
-/* menggerakan cursor ke koordinat tertentu */
-int gotoXY(int x, int y) {
-    COORD coord = {x, y};
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
-
-/* menghitung banyaknya kolom pada suatu baris */
-int getLastColumn(char teks[MAX_COLUMN + 2]) {
-	int last_column;
-	
-	last_column = strlen(teks);
-	
-	return last_column;
-}

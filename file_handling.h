@@ -13,6 +13,6 @@ void inputFile(FILE *);
 void readInput(FILE *);
 
 /* menyimpan ke file */
-void saveFile(FILE *, char [][MAX_COLUMN + 2]);
+void saveFile(FILE *, List [], int);
 
 #endif
