@@ -1,10 +1,7 @@
 #ifndef input_handling_H
 #define input_handling_H
 
-#include "constants.h"
-
-/* mengalokasikan node baru untuk list */
-address createNode(char);
+#include "utilities.h"
 
 /* menginput karakter ke list */
 void inputCharacter(char, List *, int *, address *);
@@ -21,18 +18,16 @@ List copy(List);
 /* untuk menyimpan hasil salinan suatu baris */
 void paste(List *, List, int, int *, address *);
 
-void gotoXY(int, int);
+/* membersihkan data yang ada di clipboard */
+void clearClipboard(List *clipboard);
 
+/* menggerakan cursor ke kiri */
 void moveLeft(address *, int *, int);
 
+/* menggerakan cursor ke kanan */
 void moveRight(address *, int *, int, List);
 
+/* menggerakan cursor ke atas */
 void moveUp(address *, int *, int *, List *);
-
-void printText(List [], int, int, int);
-
-int countColumn(List);
-
-void clearClipboard(List *clipboard);
 
 #endif

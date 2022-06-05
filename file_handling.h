@@ -4,7 +4,7 @@
 #include "input_handling.h"
 
 /* mencek apakah file sudah ada */
-bool checkFileExists(char [30]);
+bool checkFileExists(char [20]);
 
 /* membaca inputan */
 void readInput(FILE *, List [], address *, int, int);

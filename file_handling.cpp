@@ -1,42 +1,52 @@
 #include "file_handling.h"
 
 /* mencek apakah file sudah ada */
-bool checkFileExists(char file_name[30]) {
+bool checkFileExists(char file_name[20])
+{
 	FILE *fp;
+	bool result = false;
 	
-    if (fp = fopen(file_name, "r")) {
+	fp = fopen(file_name, "r");
+    if (fp)
+	{
         fclose(fp);
-        return true;
+        result = true;
     }
 
-    return false;
+    return result;
 }
 
 /* membaca inputan */
-void readInput(FILE *fp, List text[], address *pointer, int row, int column) {
+void readInput(FILE *fp, List text[], address *pointer, int row, int column)
+{
 	char c;
 	int cursor_row = row;
 	bool loop = true;
 	List clipboard;
 	
-	while (loop) {
-		if (text[row].number_of_column == MAX_COLUMN) {
+	while (loop)
+	{
+		if (text[row].number_of_column == MAX_COLUMN)
+		{
 			newLine(&text[row], &row, &column, pointer, &text[row + 1]);
 			cursor_row = row;
 		}
 		
-		if (row == MAX_ROW) {
+		if (row == MAX_ROW)
+		{
 			printf("\n");
 			printf("\t!> Batas maksimal baris tercapai.");
 			break;
 		}
 		
 		c = getch();
-		switch (c) {
+		switch (c)
+		{
 			case KEY_ESCAPE:
 				break;
 			case KEY_UP:
-				if (cursor_row > 0) {
+				if (cursor_row > 0)
+				{
 					moveUp(pointer, &cursor_row, &column, &text[row - 1]);
 				}
 				break;
@@ -77,13 +87,16 @@ void readInput(FILE *fp, List text[], address *pointer, int row, int column) {
 }
 
 /* menyimpan ke file */
-void saveFile(FILE *fp, List text[], int row) {
+void saveFile(FILE *fp, List text[], int row)
+{
 	int i, x;
 	address node;
 	
-	for (i = 0; i < row; i++) {
+	for (i = 0; i < row; i++)
+	{
 		node = text[i].first;
-		while (node != NULL) {
+		while (node != NULL)
+		{
 			fputc(node->character, fp);
 			node = node->next;
 		}
@@ -91,13 +104,15 @@ void saveFile(FILE *fp, List text[], int row) {
 	
 	system("cls");
 	printf("\xc9");
-	for(x = 1; x <= 30; x++){
+	for(x = 1; x <= 30; x++)
+	{
 		printf("\xcd");
 	}
 	printf("\xbb\n");
 	printf("\xba     File berhasil disimpan   \xba\n");
 	printf("\xc8");
-	for(x = 1; x <= 30; x++){
+	for(x = 1; x <= 30; x++)
+	{
 		printf("\xcd");
 	}
 	printf("\xbc\n");

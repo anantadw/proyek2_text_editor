@@ -1,22 +1,30 @@
 #include "menu.h"
 
-int main() {
+int main()
+{
 	int set[] = {GREEN, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE};
 	int counter = 1;
 	char key;
 
-	while (true) {
+	while (true)
+	{
 		printMenu(set);
 		gotoXY(19, 14);
 		printf("%d", counter);
 		
 		key = getch();
-		if (key == ARROW_UP && counter > 1) {
+		if (key == ARROW_UP && counter > 1)
+		{
 			counter--;
-		} else if (key == ARROW_DOWN && counter < 7) {
+		}
+		else if (key == ARROW_DOWN && counter < 7)
+		{
 			counter++;
-		} else if (key == KEY_ENTER) {
-			switch (counter) {
+		}
+		else if (key == KEY_ENTER)
+		{
+			switch (counter)
+			{
 				case 1:
 					createFile();
 					break;

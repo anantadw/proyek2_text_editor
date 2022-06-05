@@ -31,13 +31,15 @@
 
 /* struktur node */
 typedef struct node *address;
-typedef struct node {
+typedef struct node
+{
     char character;
     address previous, next;
 } charNode;
 
 /* struktur list */
-typedef struct {
+typedef struct
+{
     address first = NULL;
     int number_of_column = 0;
 } List;

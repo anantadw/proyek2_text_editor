@@ -3,18 +3,6 @@
 
 #include "file_handling.h"
 
-void printTopBar();
-
-void printMidBar();
-
-void printMidInput();
-
-void printBottomBar();
-
-void printMessage(int, char[], int = 7);
-
-void setColor(int);
-
 /* menampilkan pilihan menu */
 void printMenu(int []);
 
@@ -30,7 +18,7 @@ void deleteFile();
 /* mengubah nama file tertentu */
 void renameFile();
 
-/* menduplikasi file tertentu */
+/* menduplikasi suatu file */
 void copyFile();
 
 /* menampilkan deskripsi program */
