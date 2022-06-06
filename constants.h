@@ -8,8 +8,8 @@
 #include <string.h>
 #include <windows.h>
 
-#define MAX_COLUMN 40
-#define MAX_ROW 10
+#define MAX_COLUMN 80
+#define MAX_ROW 40
 
 #define RED 12
 #define GREEN 10

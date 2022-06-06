@@ -62,7 +62,7 @@ void readInput(FILE *fp, List text[], address *pointer, int row, int column)
 				moveRight(pointer, &column, cursor_row, text[cursor_row]);
 				break;
 			case KEY_BACKSPACE:
-				deleteCharacter(&text[cursor_row], &column, pointer);
+				deleteCharacter(&text[cursor_row], &column, pointer, &row, &cursor_row, &text[cursor_row - 1]);
 				printText(text, row, column, cursor_row);
 				break;
 			case KEY_ENTER:

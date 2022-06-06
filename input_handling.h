@@ -10,7 +10,7 @@ void inputCharacter(char, List *, int *, address *);
 void newLine(List [], int *, int *, int *, address *);
 
 /* menghapus 1 karakter terakhir dari list */
-void deleteCharacter(List *, int *, address *);
+void deleteCharacter(List *, int *, address *, int *, int *, List *);
 
 /* menyalin isi dari suatu baris */
 List copy(List);

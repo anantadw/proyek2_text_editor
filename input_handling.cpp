@@ -126,12 +126,59 @@ void newLine(List text[], int *row, int *cursor_row, int *column, address *point
 }
 
 /* menghapus 1 karakter terakhir dari list */
-void deleteCharacter(List *text, int *column, address *pointer) {
-	address temp;
+void deleteCharacter(List *text, int *column, address *pointer, int *row, int *cursor_row, List *text_previous) {
+	address temp, temp2;
+	int count = 0;
 	
-	if ((*pointer) == NULL)
+	// jika cursor berada di awal baris dan baris pertama
+	if ((*pointer) == NULL && (*text).first == NULL && (*cursor_row) == 0)
 	{
 		return;
+	}
+	// jika cursor di awal baris bukan baris pertama
+	else if ((*pointer) == NULL && (*text).first == NULL && (*cursor_row) != 0) {
+		temp = (*text_previous).first;
+		(*column) = 1;
+		while (temp->next->character != '\n')
+		{
+			temp = temp->next;
+			(*column)++;
+		}
+		(*column)++;
+		temp2 = temp->next;
+		temp2->previous = NULL;
+		temp->next = NULL;
+		(*pointer) = temp;
+		(*text_previous).number_of_column--;
+		(*cursor_row)--;
+		(*row)--;
+		free(temp2);
+		gotoXY(*column, *cursor_row);
+	}
+	// jika cursor di awal baris bukan baris pertama, baris tidak kosong
+	else if ((*pointer) == NULL && (*text).first != NULL && (*cursor_row) != 0)
+	{
+		temp = (*text_previous).first;
+		count = countColumn(*text);
+		(*column) = 1;
+		while (temp->next->character != '\n')
+		{
+			temp = temp->next;
+			(*column)++;
+		}
+		(*column)++;
+		temp2 = temp->next;
+		temp2->previous = NULL;
+		temp->next = (*text).first;
+		(*text).first->previous = temp;
+		(*text).first = NULL;
+		(*pointer) = temp->next->previous;
+		(*text_previous).number_of_column--;
+		(*text_previous).number_of_column += count;
+		(*cursor_row)--;
+		(*row)--;
+		free(temp2);
+		gotoXY(*column, *cursor_row);
 	}
 	// delete after - menghapus karakter di tengah baris
 	else if ((*pointer)->previous != NULL && (*pointer)->next != NULL)
